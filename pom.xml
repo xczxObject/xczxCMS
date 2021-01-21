@@ -9,6 +9,8 @@
         <module>xc-framework-utils</module>
         <module>xc-service-api</module>
         <module>xc-service-manage-cms</module>
+        <module>test-rabbitmq-producer</module>
+        <module>test-rabbitmq-consumer</module>
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>
