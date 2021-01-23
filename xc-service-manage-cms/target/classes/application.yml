@@ -7,3 +7,5 @@ spring:
     mongodb:
       uri:  mongodb://localhost:27017
       database: xc_cms
+pagehelper:
+  helper-dialect: mysql
