@@ -2,19 +2,21 @@
 <project version="4">
   <component name="CompilerConfiguration">
     <annotationProcessing>
+      <profile default="true" name="Default" enabled="true" />
       <profile name="Maven default annotation processors profile" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="xc-service-manage-course" />
+        <module name="test-rabbitmq" />
         <module name="xc-framework-model" />
-        <module name="xc-service-api" />
         <module name="xc-framework-common" />
         <module name="xc-framework-utils" />
-        <module name="xc-service-manage-cms" />
-        <module name="test-rabbitmq" />
-        <module name="xc‐service‐manage‐cms‐client" />
-        <module name="xc-service-manage-course" />
         <module name="test-rabbitmq-consumer" />
+        <module name="xc‐service‐manage‐cms‐client" />
+        <module name="xc-service-manage-cms-client" />
+        <module name="xc-service-api" />
+        <module name="xc-service-manage-cms" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
@@ -31,6 +33,7 @@
       <module name="xc-framework-utils" options="-parameters" />
       <module name="xc-service-api" options="-parameters" />
       <module name="xc-service-manage-cms" options="-parameters" />
+      <module name="xc-service-manage-cms-client" options="-parameters" />
       <module name="xc-service-manage-course" options="-parameters" />
       <module name="xc‐service‐manage‐cms‐client" options="-parameters" />
     </option>
