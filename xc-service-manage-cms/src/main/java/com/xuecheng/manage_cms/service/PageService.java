@@ -25,4 +25,13 @@ public interface PageService {
 
     //页面静态化
     String getPageHtml(String pageId);
+
+    //页面发布
+    public ResponseResult postPage(String pageId);
+
+    //保存html到GridFS
+    public CmsPage saveHtml(String pageId,String content);
+
+    //向mq 发送消息
+    public void sendPostPage(String pageId);
 }
