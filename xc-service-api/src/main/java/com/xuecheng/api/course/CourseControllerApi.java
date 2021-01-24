@@ -11,6 +11,8 @@ import io.swagger.annotations.ApiOperation;
 
 @Api(value="课程管理接口",description = "课程管理接口，提供课程的增删改查")
 public interface CourseControllerApi {
+
+    @ApiOperation("查询我的课程列表")
     QueryResponseResult<CourseInfo> findCourseList(int page, int size, CourseListRequest courseListRequest);
 
     @ApiOperation("课程计划查询")
