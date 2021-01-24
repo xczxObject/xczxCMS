@@ -1,20 +1,13 @@
 package com.xuecheng.manage_course.service.impl;
 
 import com.alibaba.druid.util.StringUtils;
-import com.github.pagehelper.Page;
-import com.github.pagehelper.PageHelper;
 import com.xuecheng.framework.domain.course.CourseBase;
 import com.xuecheng.framework.domain.course.Teachplan;
-import com.xuecheng.framework.domain.course.ext.CourseInfo;
 import com.xuecheng.framework.domain.course.ext.TeachplanNode;
-import com.xuecheng.framework.domain.course.request.CourseListRequest;
 import com.xuecheng.framework.exception.ExceptionCast;
 import com.xuecheng.framework.model.response.CommonCode;
-import com.xuecheng.framework.model.response.QueryResponseResult;
-import com.xuecheng.framework.model.response.QueryResult;
 import com.xuecheng.framework.model.response.ResponseResult;
 import com.xuecheng.manage_course.dao.CourseBaseRepository;
-import com.xuecheng.manage_course.dao.CourseMapper;
 import com.xuecheng.manage_course.dao.TeachplanMapper;
 import com.xuecheng.manage_course.dao.TeachplanRepository;
 import com.xuecheng.manage_course.service.CourseService;
@@ -37,9 +30,6 @@ public class CourseServiceimpl implements CourseService {
 
     @Autowired
     CourseBaseRepository courseBaseRepository;
-
-    @Autowired
-    CourseMapper courseMapper;
 
     //课程计划的查询
     public TeachplanNode findTeachplanList(String courseId){
@@ -81,7 +71,7 @@ public class CourseServiceimpl implements CourseService {
         //要处理parentId
         return new ResponseResult(CommonCode.SUCCESS);
     }
-    @Override
+
     //查询课程的根节点，如果查询不到要自动添加根节点
     public String getTeachplanRoot(String courseId){
         Optional<CourseBase> optional = courseBaseRepository.findById(courseId);
@@ -105,29 +95,6 @@ public class CourseServiceimpl implements CourseService {
         }
         //返回根结点的id
         return teachplanList.get(0).getId();
-    }
 
-    @Override
-    public QueryResponseResult<CourseInfo> findCourseListPage(int page, int size, CourseListRequest courseListRequest) {
-        if (courseListRequest == null) {
-            courseListRequest = new CourseListRequest();
-        }
-
-        if (page < 0) {
-            page = 0;
-        }
-
-        if (size <= 0) {
-            size = 20;
-        }
-
-        PageHelper.startPage(page, size);
-        Page<CourseInfo> courseInfoPage = this.courseMapper.findCourseListPage(courseListRequest);
-        List<CourseInfo> courseInfoList = courseInfoPage.getResult();
-        long total = courseInfoPage.getTotal();
-        QueryResult<CourseInfo> courseInfoQueryResult = new QueryResult<>();
-        courseInfoQueryResult.setList(courseInfoList);
-        courseInfoQueryResult.setTotal(total);
-        return new QueryResponseResult<>(CommonCode.SUCCESS, courseInfoQueryResult);
     }
 }
