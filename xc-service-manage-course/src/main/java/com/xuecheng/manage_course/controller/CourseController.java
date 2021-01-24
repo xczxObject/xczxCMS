@@ -1,10 +1,12 @@
 package com.xuecheng.manage_course.controller;
 
 import com.xuecheng.api.course.CourseControllerApi;
+import com.xuecheng.framework.domain.course.CourseBase;
 import com.xuecheng.framework.domain.course.Teachplan;
 import com.xuecheng.framework.domain.course.ext.CourseInfo;
 import com.xuecheng.framework.domain.course.ext.TeachplanNode;
 import com.xuecheng.framework.domain.course.request.CourseListRequest;
+import com.xuecheng.framework.domain.course.response.AddCourseResult;
 import com.xuecheng.framework.model.response.QueryResponseResult;
 import com.xuecheng.framework.model.response.ResponseResult;
 import com.xuecheng.manage_course.service.CourseService;
@@ -36,5 +38,23 @@ public class CourseController implements CourseControllerApi {
     @PostMapping("/teachplan/add")
     public ResponseResult addTeachplan(@RequestBody Teachplan teachplan) {
         return courseService.addTeachplan(teachplan);
+    }
+
+    @Override
+    @PostMapping("/coursebase/add")
+    public AddCourseResult addCourseBase(@RequestBody CourseBase courseBase) {
+        return courseService.addCourseBase(courseBase);
+    }
+
+    @Override
+    @GetMapping("/coursebase/get/{courseId}")
+    public CourseBase getCourseBaseById(@PathVariable("courseId") String courseId) throws RuntimeException {
+        return courseService.getCoursebaseById(courseId);
+    }
+
+    @Override
+    @PutMapping("/coursebase/update/{id}")
+    public ResponseResult updateCourseBase(@PathVariable("id") String id,@RequestBody CourseBase courseBase) {
+        return courseService.updateCoursebase(id,courseBase);
     }
 }

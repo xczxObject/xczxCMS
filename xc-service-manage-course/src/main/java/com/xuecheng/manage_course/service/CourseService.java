@@ -6,6 +6,7 @@ import com.xuecheng.framework.domain.course.Teachplan;
 import com.xuecheng.framework.domain.course.ext.CourseInfo;
 import com.xuecheng.framework.domain.course.ext.TeachplanNode;
 import com.xuecheng.framework.domain.course.request.CourseListRequest;
+import com.xuecheng.framework.domain.course.response.AddCourseResult;
 import com.xuecheng.framework.exception.ExceptionCast;
 import com.xuecheng.framework.model.response.CommonCode;
 import com.xuecheng.framework.model.response.QueryResponseResult;
@@ -33,6 +34,16 @@ public interface CourseService {
     //查询课程的根节点，如果查询不到要自动添加根节点
     String getTeachplanRoot(String courseId);
 
+    //课程列表查询分页
     QueryResponseResult<CourseInfo> findCourseListPage(int page, int size, CourseListRequest courseListRequest);
+
+    //添加课程提交
+    AddCourseResult addCourseBase(CourseBase courseBase);
+
+    //根据id获取课程详细信息
+    CourseBase getCoursebaseById(String courseId);
+
+    //更新课程信息
+    ResponseResult updateCoursebase(String id, CourseBase courseBase);
 
 }
