@@ -6,14 +6,9 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-@Service
-public class SysdictionaryService {
 
-    @Autowired
-    SysDictionaryDao sysDictionaryDao;
+public interface SysdictionaryService {
 
     //根据字典分类type查询字典信息
-    public SysDictionary finDictionaryByType(String type){
-        return sysDictionaryDao.findBydType(type);
-    }
+    public SysDictionary finDictionaryByType(String type);
 }
