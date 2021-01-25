@@ -3,11 +3,13 @@ package com.xuecheng.manage_course.service.impl;
 import com.alibaba.druid.util.StringUtils;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
+import com.xuecheng.framework.domain.cms.response.CmsCode;
 import com.xuecheng.framework.domain.course.CourseBase;
 import com.xuecheng.framework.domain.course.Teachplan;
 import com.xuecheng.framework.domain.course.ext.CourseInfo;
 import com.xuecheng.framework.domain.course.ext.TeachplanNode;
 import com.xuecheng.framework.domain.course.request.CourseListRequest;
+import com.xuecheng.framework.domain.course.response.AddCourseResult;
 import com.xuecheng.framework.exception.ExceptionCast;
 import com.xuecheng.framework.model.response.CommonCode;
 import com.xuecheng.framework.model.response.QueryResponseResult;
@@ -129,5 +131,43 @@ public class CourseServiceimpl implements CourseService {
         courseInfoQueryResult.setList(courseInfoList);
         courseInfoQueryResult.setTotal(total);
         return new QueryResponseResult<>(CommonCode.SUCCESS, courseInfoQueryResult);
+    }
+
+    @Override
+    //添加课程提交
+    @Transactional
+    public AddCourseResult addCourseBase(CourseBase courseBase) {
+        //课程默认状态为未发布
+        courseBase.setStatus("202001");
+        courseBaseRepository.save(courseBase);
+        return new AddCourseResult(CommonCode.SUCCESS,courseBase.getId());
+    }
+
+    @Override
+    public CourseBase getCoursebaseById(String courseId) {
+        Optional<CourseBase> optional = courseBaseRepository.findById(courseId);
+        if(optional.isPresent()){
+            return optional.get();
+        }
+        return null;
+    }
+
+    @Override
+    @Transactional
+    public ResponseResult updateCoursebase(String id, CourseBase courseBase) {
+        CourseBase one = this.getCoursebaseById(id);
+        if(one == null){
+            ExceptionCast.cast(CmsCode.CMS_GENERATEHTML_DATAISNULL);
+        }
+        //修改课程信息
+        one.setName(courseBase.getName());
+        one.setMt(courseBase.getMt());
+        one.setSt(courseBase.getSt());
+        one.setGrade(courseBase.getGrade());
+        one.setStudymodel(courseBase.getStudymodel());
+        one.setUsers(courseBase.getUsers());
+        one.setDescription(courseBase.getDescription());
+        CourseBase save = courseBaseRepository.save(one);
+        return new ResponseResult(CommonCode.SUCCESS);
     }
 }
