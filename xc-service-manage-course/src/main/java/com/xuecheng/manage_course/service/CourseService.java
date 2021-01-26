@@ -2,6 +2,7 @@ package com.xuecheng.manage_course.service;
 
 import com.alibaba.druid.util.StringUtils;
 import com.xuecheng.framework.domain.course.CourseBase;
+import com.xuecheng.framework.domain.course.CoursePic;
 import com.xuecheng.framework.domain.course.Teachplan;
 import com.xuecheng.framework.domain.course.ext.CourseInfo;
 import com.xuecheng.framework.domain.course.ext.TeachplanNode;
@@ -46,4 +47,9 @@ public interface CourseService {
     //更新课程信息
     ResponseResult updateCoursebase(String id, CourseBase courseBase);
 
+    ResponseResult addCoursePic(String courseId, String pic);
+
+    CoursePic findCoursepic(String courseId);
+
+    ResponseResult deleteCoursePic(String courseId);
 }
