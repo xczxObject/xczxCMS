@@ -36,7 +36,7 @@ public class FileSystemService {
     FileSystemRepository fileSystemRepository;
 
     //上传文件
-    public UploadFileResult upload( MultipartFile multipartFile,
+    public UploadFileResult upload(MultipartFile multipartFile,
                                    String filetag,
                                    String businesskey,
                                    String metadata){
