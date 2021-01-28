@@ -50,4 +50,7 @@ public interface CourseControllerApi {
     @ApiOperation("课程预览")
     public CoursePublishResult preview(String id);
 
+    @ApiOperation("课程发布")
+    public CoursePublishResult publish(String id);
+
 }

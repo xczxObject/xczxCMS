@@ -5,10 +5,12 @@ import com.mongodb.client.gridfs.GridFSBucket;
 import com.mongodb.client.gridfs.GridFSDownloadStream;
 import com.mongodb.client.gridfs.model.GridFSFile;
 import com.xuecheng.framework.domain.cms.CmsPage;
+import com.xuecheng.framework.domain.cms.CmsSite;
 import com.xuecheng.framework.domain.cms.CmsTemplate;
 import com.xuecheng.framework.domain.cms.request.QueryPageRequest;
 import com.xuecheng.framework.domain.cms.response.CmsCode;
 import com.xuecheng.framework.domain.cms.response.CmsPageResult;
+import com.xuecheng.framework.domain.cms.response.CmsPostPageResult;
 import com.xuecheng.framework.exception.ExceptionCast;
 import com.xuecheng.framework.model.response.CommonCode;
 import com.xuecheng.framework.model.response.QueryResponseResult;
@@ -16,6 +18,7 @@ import com.xuecheng.framework.model.response.QueryResult;
 import com.xuecheng.framework.model.response.ResponseResult;
 import com.xuecheng.manage_cms.config.RabbitmqConfig;
 import com.xuecheng.manage_cms.dao.CmsPageRepository;
+import com.xuecheng.manage_cms.dao.CmsSiteRepository;
 import com.xuecheng.manage_cms.dao.CmsTemplateRepository;
 import com.xuecheng.manage_cms.service.PageService;
 import freemarker.cache.StringTemplateLoader;
@@ -25,6 +28,7 @@ import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.bson.types.ObjectId;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -57,6 +61,9 @@ public class PageServiceImpl implements PageService{
     GridFSBucket gridFSBucket;
     @Resource
     RabbitTemplate rabbitTemplate;
+
+    @Resource
+    CmsSiteRepository cmsSiteRepository;
 
     @Override
     public QueryResponseResult findList(int page, int size, QueryPageRequest queryPageRequest) {
@@ -310,6 +317,42 @@ public class PageServiceImpl implements PageService{
         }
         //添加
         return this.add(cmsPage);
+    }
+
+    //一键发布
+    @Override
+    public CmsPostPageResult postPageQuick(CmsPage cmsPage) {
+        //将页面信息存储到cms_page集合中
+        CmsPageResult save=this.save(cmsPage);
+        if(!save.isSuccess())
+        {
+            ExceptionCast.cast(CommonCode.FAIL);
+        }
+        //得到页面的ID
+        CmsPage cmsPageSave=save.getCmsPage();
+        String pageId = cmsPageSave.getPageId();
+        //执行页面发布（先静态化，保存GridFS,向MQ发送消息）
+        ResponseResult post=this.postPage(pageId);
+        if(!post.isSuccess())
+        {
+            ExceptionCast.cast(CommonCode.FAIL);
+        }
+
+        //拼装 页面Url= cmsSite.siteDomain+cmsSite.siteWebPath+ cmsPage.pageWebPath + cmsPage.pageName
+        //取出站点id
+        String siteId = cmsPageSave.getSiteId();
+        CmsSite cmsSite = this.findCmsSiteById(siteId);
+        String pageUrl=cmsSite.getSiteDomain()+cmsSite.getSiteWebPath()+cmsPageSave.getPageWebPath();
+        return new CmsPostPageResult(CommonCode.SUCCESS,pageUrl);
+    }
+
+    //根据id查询站点信息
+    public CmsSite findCmsSiteById(String siteId){
+        Optional<CmsSite> optional = cmsSiteRepository.findById(siteId);
+        if(optional.isPresent()){
+            return optional.get();
+        }
+        return null;
     }
 
     //保存html到GridFS

@@ -58,4 +58,6 @@ public interface CourseService {
     CourseView getCoruseView(String id);
 
     CoursePublishResult prview(String id);
+
+    CoursePublishResult publish(String id);
 }
