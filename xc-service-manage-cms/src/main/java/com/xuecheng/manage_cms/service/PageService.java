@@ -34,4 +34,6 @@ public interface PageService {
 
     //向mq 发送消息
     public void sendPostPage(String pageId);
+
+    CmsPageResult save(CmsPage cmsPage);
 }

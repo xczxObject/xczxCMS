@@ -298,6 +298,20 @@ public class PageServiceImpl implements PageService{
         rabbitTemplate.convertAndSend(RabbitmqConfig.EX_ROUTING_CMS_POSTPAGE,siteId,jsonString);
     }
 
+    //保存页面，有则更新，没有则添加
+    @Override
+    public CmsPageResult save(CmsPage cmsPage) {
+        //判断页面是否存在
+        CmsPage one = cmsPageRepository.findByPageNameAndSiteIdAndPageWebPath(cmsPage.getPageName(), cmsPage.getSiteId(), cmsPage.getPageWebPath());
+        if(one!=null)
+        {
+            //进行更新
+            return this.update(one.getPageId(),cmsPage);
+        }
+        //添加
+        return this.add(cmsPage);
+    }
+
     //保存html到GridFS
     @Override
     public CmsPage saveHtml(String pageId,String content){

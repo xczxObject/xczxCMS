@@ -8,17 +8,18 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="xc-framework-model" />
-        <module name="xc-govern-center" />
-        <module name="xc-service-base-filesystem" />
-        <module name="xc-service-manage-cms-client" />
-        <module name="xc-service-api" />
         <module name="xc-framework-common" />
         <module name="xc-framework-utils" />
-        <module name="xc-service-manage-cms" />
         <module name="test-rabbitmq" />
         <module name="xc‐service‐manage‐cms‐client" />
         <module name="xc-service-manage-course" />
         <module name="test-rabbitmq-consumer" />
+        <module name="test-freemarker" />
+        <module name="xc-govern-center" />
+        <module name="xc-service-base-filesystem" />
+        <module name="xc-service-manage-cms-client" />
+        <module name="xc-service-api" />
+        <module name="xc-service-manage-cms" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
@@ -27,6 +28,7 @@
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="test-freemarker" options="-parameters" />
       <module name="test-rabbitmq" options="-parameters" />
       <module name="test-rabbitmq-consumer" options="-parameters" />
       <module name="utils" options="-parameters" />

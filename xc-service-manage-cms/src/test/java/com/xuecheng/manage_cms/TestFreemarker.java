@@ -31,12 +31,13 @@ public class TestFreemarker {
     @Test
     public void testGridfsTemplate() throws Exception{
         //定义file
-        File file=new File("d:/index_banner.ftl");
+        File file=new File("D:/xczxObject/course.ftl");
         //定义fileinputstream
         FileInputStream fileInputStream=new FileInputStream(file);
-        ObjectId objectId = gridFsTemplate.store(fileInputStream, "index_banner.ftl");
+        ObjectId objectId = gridFsTemplate.store(fileInputStream, "course.ftl");
         System.out.println(objectId);
     }
+
     @Test
     public void queryFile() throws IOException{
         //根据文件ID查询文件
